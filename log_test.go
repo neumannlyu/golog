@@ -16,16 +16,13 @@ func TestLog(t *testing.T) {
 
     var tag StLevelTag
     tag.Bgcolor = color.BgBlack
-    tag.tag = "INFOF"
+    tag.tag = "MyINFO"
     log.UpdateElement(tag)
-    log.Println(color.CyanString("  dsfdg"))
-    log.Fatal("kkkkk\n")
-    log.Println(color.CyanString("xxxdsfdg"))
+    log.Println(color.CyanString("msg"))
+    log.Fatal("fatal\n")
     log.Error("error\n")
-    log.Println(color.CyanString("xxxdsfdg"))
     log.Warn("warn\n")
     log.Info("info\n")
     log.Debug("debug\n")
     log.Trace("trace\n")
-    log.Println(color.CyanString("xxxdsfdg"))
 }
