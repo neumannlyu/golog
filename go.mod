@@ -1,4 +1,4 @@
-module golog
+module github.com/neumannlyu/golog
 
 go 1.20
 
