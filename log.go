@@ -8,9 +8,17 @@ import (
     "github.com/fatih/color"
 )
 
-type StLog struct {
+type LogMsg struct {
+    Msg     string
+    Font    color.Attribute
+    Bgcolor color.Attribute
+    Fgcolor color.Attribute
+}
+
+type Log struct {
     Level    int
     Format   string
+    Log      LogMsg
     FatalTag LogLevel
     ErrorTag LogLevel
     InfoTag  LogLevel
@@ -20,7 +28,7 @@ type StLog struct {
     Element  []ILogElement
 }
 
-func NewDefaultLog() StLog {
+func NewDefaultLog() Log {
     // 默认时间展示方式
     var time LogTime
     time.Format = "2006-01-02 15:04:05"
@@ -34,8 +42,8 @@ func NewDefaultLog() StLog {
     leveltag.Tag = "INFO"
 
     // 新建默认的日志对象
-    var log StLog
-    log.Format = "[&DT] [&TAG]"
+    var log Log
+    log.Format = "[&DT] [&TAG] "
     log.Element = append(log.Element, time, leveltag)
 
     // 构造所有的标签
@@ -58,7 +66,7 @@ func NewDefaultLog() StLog {
     return log
 }
 
-func (l StLog) Println(strs ...string) {
+func (l Log) Logln(strs ...string) {
     log := l.Format
     for _, e := range l.Element {
         log = strings.ReplaceAll(log, e.Flag(), e.ToString())
@@ -70,7 +78,7 @@ func (l StLog) Println(strs ...string) {
     fmt.Println()
 }
 
-func (l StLog) UpdateElement(newelement ILogElement) {
+func (l Log) UpdateElement(newelement ILogElement) {
     switch newelement.(type) {
     case LogTime:
         for i, e := range l.Element {
@@ -119,14 +127,14 @@ func CheckError(err error) bool {
     log.UpdateElement(logtime)
     log.UpdateElement(errtag)
 
-    log.Println(color.RedString(err.Error()))
+    log.Logln(color.RedString(err.Error()))
     for i := 1; i < 1999; i++ {
         pc, file, line, ok := runtime.Caller(i)
         if !ok || file == "" || pc == 0 {
             break
         }
         // 格式：\t源码文件名:行数 函数名
-        log.Println(color.RedString("%s:%d %s", file, line, runtime.FuncForPC(pc).Name()))
+        log.Logln(color.RedString("%s:%d %s", file, line, runtime.FuncForPC(pc).Name()))
     }
     return true
 }
@@ -135,8 +143,8 @@ func CheckError(err error) bool {
 //////////////////////////////////////////////////////
 //////////////////////////////////////////////////////
 // 打印fatal级别的日志
-func (l StLog) Fatal(msg ...string) {
-    if l.Level < LOGLEVEL_FATAL {
+func (l Log) Fatal(msg ...string) {
+    if l.Level > LOGLEVEL_FATAL {
         return
     }
     // 用新的副本操作，防止修改原本设置的tag格式
@@ -160,8 +168,8 @@ func (l StLog) Fatal(msg ...string) {
 }
 
 // 打印error级别的日志
-func (l StLog) Error(msg ...string) {
-    if l.Level < LOGLEVEL_ERROR {
+func (l Log) Error(msg ...string) {
+    if l.Level > LOGLEVEL_ERROR {
         return
     }
     // 用新的副本操作，防止修改原本设置的tag格式
@@ -185,8 +193,8 @@ func (l StLog) Error(msg ...string) {
 }
 
 // 打印error级别的日志
-func (l StLog) Warn(msg ...string) {
-    if l.Level < LOGLEVEL_WARN {
+func (l Log) Warn(msg ...string) {
+    if l.Level > LOGLEVEL_WARN {
         return
     }
     // 用新的副本操作，防止修改原本设置的tag格式
@@ -210,8 +218,8 @@ func (l StLog) Warn(msg ...string) {
 }
 
 // 打印info级别的日志
-func (l StLog) Info(msg ...string) {
-    if l.Level < LOGLEVEL_INFO {
+func (l Log) Info(msg ...string) {
+    if l.Level > LOGLEVEL_INFO {
         return
     }
     // 用新的副本操作，防止修改原本设置的tag格式
@@ -235,8 +243,8 @@ func (l StLog) Info(msg ...string) {
 }
 
 // 打印debug级别的日志
-func (l StLog) Debug(msg ...string) {
-    if l.Level < LOGLEVEL_DEBUG {
+func (l Log) Debug(msg ...string) {
+    if l.Level > LOGLEVEL_DEBUG {
         return
     }
     // 用新的副本操作，防止修改原本设置的tag格式
@@ -260,8 +268,8 @@ func (l StLog) Debug(msg ...string) {
 }
 
 // 打印trace级别的日志
-func (l StLog) Trace(msg ...string) {
-    if l.Level < LOGLEVEL_TRACE {
+func (l Log) Trace(msg ...string) {
+    if l.Level > LOGLEVEL_TRACE {
         return
     }
     // 用新的副本操作，防止修改原本设置的tag格式

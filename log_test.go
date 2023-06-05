@@ -1,10 +1,10 @@
 package golog
 
 import (
-    "errors"
-    "testing"
+	"errors"
+	"testing"
 
-    "github.com/fatih/color"
+	"github.com/fatih/color"
 )
 
 func TestLog(t *testing.T) {
@@ -19,7 +19,7 @@ func TestLog(t *testing.T) {
     tag.Bgcolor = color.BgBlack
     tag.Tag = "MyINFO"
     log.UpdateElement(tag)
-    log.Println(color.CyanString("msg"))
+    log.Logln(color.CyanString("msg"))
     log.Fatal("fatal\n")
     log.Error("error\n")
     log.Warn("warn\n")
