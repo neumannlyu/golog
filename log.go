@@ -2,6 +2,7 @@ package golog
 
 import (
     "fmt"
+    "runtime"
     "strings"
 
     "github.com/fatih/color"
@@ -10,27 +11,27 @@ import (
 type StLog struct {
     Level    int
     Format   string
-    FatalTag StLevelTag
-    ErrorTag StLevelTag
-    InfoTag  StLevelTag
-    WarnTag  StLevelTag
-    DebugTag StLevelTag
-    TraceTag StLevelTag
+    FatalTag LogLevel
+    ErrorTag LogLevel
+    InfoTag  LogLevel
+    WarnTag  LogLevel
+    DebugTag LogLevel
+    TraceTag LogLevel
     Element  []ILogElement
 }
 
 func NewDefaultLog() StLog {
     // 默认时间展示方式
-    var time StTime
+    var time LogTime
     time.Format = "2006-01-02 15:04:05"
     time.Font = color.Bold
     time.Fgcolor = color.FgRed
 
     // 默认日志等级展示方式
-    var leveltag StLevelTag
+    var leveltag LogLevel
     leveltag.Font = color.Bold
     leveltag.Bgcolor = color.BgBlue
-    leveltag.tag = "INFO"
+    leveltag.Tag = "INFO"
 
     // 新建默认的日志对象
     var log StLog
@@ -39,21 +40,21 @@ func NewDefaultLog() StLog {
 
     // 构造所有的标签
     // fatal
-    log.FatalTag.tag = LOGTAG_FATAL
+    log.FatalTag.Tag = LOGTAG_FATAL
     log.FatalTag.Fgcolor = color.FgHiRed
     // error
-    log.ErrorTag.tag = LOGTAG_ERROR
+    log.ErrorTag.Tag = LOGTAG_ERROR
     log.ErrorTag.Fgcolor = color.FgHiRed
     // warn
-    log.WarnTag.tag = LOGTAG_WARN
+    log.WarnTag.Tag = LOGTAG_WARN
     log.WarnTag.Fgcolor = color.FgYellow
     // info
-    log.InfoTag.tag = LOGTAG_INFO
+    log.InfoTag.Tag = LOGTAG_INFO
     log.InfoTag.Fgcolor = color.FgCyan
     // debug
-    log.DebugTag.tag = LOGTAG_DEBUG
+    log.DebugTag.Tag = LOGTAG_DEBUG
     // trace
-    log.TraceTag.tag = LOGTAG_TRACE
+    log.TraceTag.Tag = LOGTAG_TRACE
     return log
 }
 
@@ -71,21 +72,63 @@ func (l StLog) Println(strs ...string) {
 
 func (l StLog) UpdateElement(newelement ILogElement) {
     switch newelement.(type) {
-    case StTime:
+    case LogTime:
         for i, e := range l.Element {
             switch e.(type) {
-            case StTime:
+            case LogTime:
                 l.Element[i] = newelement
             }
         }
-    case StLevelTag:
+    case LogLevel:
         for i, e := range l.Element {
             switch e.(type) {
-            case StLevelTag:
+            case LogLevel:
                 l.Element[i] = newelement
             }
         }
     }
+}
+
+// 运行时错误。当err不为空时，会提示错误信息，并且会打印函数的调用堆栈。
+// 可以将上层的err直接传到这里，这里处理err。
+// demo：
+// _, err := function()
+// if RunTimeError(err) {
+// ......处理错误的代码
+// }
+// @param err
+// @return bool。如果返回true，表明有错误；false没有发生错误。
+func CheckError(err error) bool {
+    // 没有发生错误。
+    if err == nil {
+        return false
+    }
+
+    // 发生错误。提示错误信息以及调用堆栈情况。
+    var logtime LogTime
+    logtime.Format = "[2006-01-02 15:04:05]"
+    logtime.Fgcolor = color.FgRed
+    var errtag LogLevel
+    errtag.Tag = LOGTAG_ERROR
+    errtag.Bgcolor = color.BgRed
+    errtag.Fgcolor = color.FgHiRed
+
+    log := NewDefaultLog()
+    log.Level = 7
+    log.Format = logtime.Flag() + " " + errtag.Flag() + " "
+    log.UpdateElement(logtime)
+    log.UpdateElement(errtag)
+
+    log.Println(color.RedString(err.Error()))
+    for i := 1; i < 1999; i++ {
+        pc, file, line, ok := runtime.Caller(i)
+        if !ok || file == "" || pc == 0 {
+            break
+        }
+        // 格式：\t源码文件名:行数 函数名
+        log.Println(color.RedString("%s:%d %s", file, line, runtime.FuncForPC(pc).Name()))
+    }
+    return true
 }
 
 //////////////////////////////////////////////////////

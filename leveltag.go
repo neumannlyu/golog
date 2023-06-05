@@ -4,18 +4,18 @@ import (
     "github.com/fatih/color"
 )
 
-type StLevelTag struct {
-    tag     string
+type LogLevel struct {
+    Tag     string
     Font    color.Attribute
     Bgcolor color.Attribute
     Fgcolor color.Attribute
 }
 
-func (lt StLevelTag) Flag() string {
+func (lt LogLevel) Flag() string {
     return "&TAG"
 }
 
-func (lt StLevelTag) ToString() string {
+func (lt LogLevel) ToString() string {
     c := color.New()
     if lt.Font > 0 {
         c.Add(lt.Font)
@@ -26,5 +26,5 @@ func (lt StLevelTag) ToString() string {
     if lt.Fgcolor > 0 {
         c.Add(lt.Fgcolor)
     }
-    return c.Sprint(lt.tag)
+    return c.Sprint(lt.Tag)
 }

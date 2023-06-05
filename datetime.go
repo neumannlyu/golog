@@ -6,18 +6,18 @@ import (
     "github.com/fatih/color"
 )
 
-type StTime struct {
+type LogTime struct {
     Format  string
     Font    color.Attribute
     Bgcolor color.Attribute
     Fgcolor color.Attribute
 }
 
-func (t StTime) Flag() string {
+func (t LogTime) Flag() string {
     return "&DT"
 }
 
-func (t StTime) ToString() string {
+func (t LogTime) ToString() string {
     c := color.New()
     if t.Font > 0 {
         c.Add(t.Font)
