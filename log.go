@@ -1,42 +1,35 @@
 package golog
 
 import (
-    "fmt"
-    "runtime"
-    "strings"
+	"fmt"
+	"runtime"
+	"strings"
 
-    "github.com/fatih/color"
+	"github.com/fatih/color"
 )
-
-type LogMsg struct {
-    Msg     string
-    Font    color.Attribute
-    Bgcolor color.Attribute
-    Fgcolor color.Attribute
-}
 
 type Log struct {
     Level    int
     Format   string
-    Log      LogMsg
-    FatalTag LogLevel
-    ErrorTag LogLevel
-    InfoTag  LogLevel
-    WarnTag  LogLevel
-    DebugTag LogLevel
-    TraceTag LogLevel
+    Log      MsgAttribute
+    FatalTag TAG
+    ErrorTag TAG
+    InfoTag  TAG
+    WarnTag  TAG
+    DebugTag TAG
+    TraceTag TAG
     Element  []ILogElement
 }
 
 func NewDefaultLog() Log {
     // 默认时间展示方式
-    var time LogTime
+    var time LogDate
     time.Format = "2006-01-02 15:04:05"
     time.Font = color.Bold
     time.Fgcolor = color.FgRed
 
     // 默认日志等级展示方式
-    var leveltag LogLevel
+    var leveltag TAG
     leveltag.Font = color.Bold
     leveltag.Bgcolor = color.BgBlue
     leveltag.Tag = "INFO"
@@ -66,31 +59,43 @@ func NewDefaultLog() Log {
     return log
 }
 
+// 设置日志等级
+func (log *Log) SetLogLevel(level int) {
+    log.Level = level
+}
+
 func (l Log) Logln(strs ...string) {
     log := l.Format
     for _, e := range l.Element {
         log = strings.ReplaceAll(log, e.Flag(), e.ToString())
     }
     fmt.Print(log)
+    c := color.New()
+    if l.Log.Bgcolor > 0 {
+        c = c.Add(l.Log.Bgcolor)
+    }
+    if l.Log.Fgcolor > 0 {
+        c = c.Add(l.Log.Fgcolor)
+    }
     for _, v := range strs {
-        fmt.Print(v)
+        c.Print(v)
     }
     fmt.Println()
 }
 
 func (l Log) UpdateElement(newelement ILogElement) {
     switch newelement.(type) {
-    case LogTime:
+    case LogDate:
         for i, e := range l.Element {
             switch e.(type) {
-            case LogTime:
+            case LogDate:
                 l.Element[i] = newelement
             }
         }
-    case LogLevel:
+    case TAG:
         for i, e := range l.Element {
             switch e.(type) {
-            case LogLevel:
+            case TAG:
                 l.Element[i] = newelement
             }
         }
@@ -113,10 +118,10 @@ func CheckError(err error) bool {
     }
 
     // 发生错误。提示错误信息以及调用堆栈情况。
-    var logtime LogTime
+    var logtime LogDate
     logtime.Format = "[2006-01-02 15:04:05]"
     logtime.Fgcolor = color.FgRed
-    var errtag LogLevel
+    var errtag TAG
     errtag.Tag = LOGTAG_ERROR
     errtag.Bgcolor = color.BgRed
     errtag.Fgcolor = color.FgHiRed
