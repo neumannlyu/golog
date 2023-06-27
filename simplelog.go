@@ -25,17 +25,9 @@ func NewSimpleLog() SimpleLog {
     var simple SimpleLog
     // 默认时间展示方式
     simple.Data.Format = "2006-01-02 15:04:05"
-    simple.Data.Font = color.Bold
-    simple.Data.Fgcolor = color.FgRed
-
-    // 默认日志等级展示方式
-    simple.Tag.Font = color.Bold
-    simple.Tag.Bgcolor = color.BgBlue
     simple.Tag.Tag = "log"
-
     // 新建默认的日志对象
-    simple.FormatString = "[&DT] [&TAG] "
-
+    simple.FormatString = "&DT &TAG "
     return simple
 }
 
@@ -59,10 +51,41 @@ func (simplelog SimpleLog) Log(strs ...string) {
     format := simplelog.FormatString
 
     // 格式化Data
-    format = strings.ReplaceAll(format, simplelog.Data.Flag(), simplelog.Data.ToString())
+    format = strings.ReplaceAll(
+        format, simplelog.Data.Flag(), simplelog.Data.ToString())
 
     // 格式化TAG
-    format = strings.ReplaceAll(format, simplelog.Tag.Flag(), simplelog.Tag.ToString())
+    format = strings.ReplaceAll(
+        format, simplelog.Tag.Flag(), simplelog.Tag.ToString())
+
+    // print
+    fmt.Print(format)
+
+    c := color.New()
+    if simplelog.Msg.Bgcolor > 0 {
+        c = c.Add(simplelog.Msg.Bgcolor)
+    }
+    if simplelog.Msg.Fgcolor > 0 {
+        c = c.Add(simplelog.Msg.Fgcolor)
+    }
+    if simplelog.Msg.Font > 0 {
+        c.Add(simplelog.Msg.Font)
+    }
+    for _, v := range strs {
+        c.Print(v)
+    }
+}
+
+func (simplelog SimpleLog) Logln(strs ...string) {
+    format := simplelog.FormatString
+
+    // 格式化Data
+    format = strings.ReplaceAll(
+        format, simplelog.Data.Flag(), simplelog.Data.ToString())
+
+    // 格式化TAG
+    format = strings.ReplaceAll(
+        format, simplelog.Tag.Flag(), simplelog.Tag.ToString())
 
     // print
     fmt.Print(format)
