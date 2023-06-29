@@ -1,4 +1,4 @@
-package main
+package golog
 
 import (
     "github.com/neumannlyu/golog/pkg/log"
