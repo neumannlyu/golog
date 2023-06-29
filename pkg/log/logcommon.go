@@ -2,9 +2,33 @@ package log
 
 import (
     "fmt"
-    "runtime"
 
     "github.com/fatih/color"
+)
+
+// 7:slient/off：完全不输出信息
+// 6:fatal：导致程序退出，输出程序退出时的错误信息
+// 5:error：错误信息
+// 4:warn：警告信息
+// 3:info：用于输出信息
+// 2:debug：输出调试信息
+// 1:trace： 程序运行时的跟踪信息
+// 0:all： 所有信息
+var (
+    LOGLEVEL_SLIENT int    = 7
+    LOGLEVEL_FATAL  int    = 6
+    LOGLEVEL_ERROR  int    = 5
+    LOGLEVEL_WARN   int    = 4
+    LOGLEVEL_INFO   int    = 3
+    LOGLEVEL_DEBUG  int    = 2
+    LOGLEVEL_TRACE  int    = 1
+    LOGLEVEL_ALL    int    = 0
+    LOGTAG_FATAL    string = "FATAL"
+    LOGTAG_ERROR    string = "ERROR"
+    LOGTAG_WARN     string = "WARN"
+    LOGTAG_INFO     string = "INFO"
+    LOGTAG_DEBUG    string = "DEBUG"
+    LOGTAG_TRACE    string = "TRACE"
 )
 
 // common log object
@@ -77,43 +101,6 @@ func (log *CommonLog) SetLogLevel(level int) {
 //         }
 //     }
 // }
-
-// 运行时错误。当err不为空时，会提示错误信息，并且会打印函数的调用堆栈。
-// 可以将上层的err直接传到这里，这里处理err。
-// demo：
-// _, err := function()
-// if CatchError(err) {
-// ......处理错误的代码
-// }
-// @param err
-// @return bool。如果返回true，表明有错误；false没有发生错误。
-func CatchError(err error) bool {
-    // 没有发生错误。
-    if err == nil {
-        return false
-    }
-
-    // 发生错误。提示错误信息以及调用堆栈情况。
-
-    log := NewCommonLog()
-    // 该条日志对象必须显示
-    log.Level = LOGLEVEL_ALL
-
-    log.ErrorTag.Font = color.Bold
-    log.ErrorTag.Tag = "CatchError"
-
-    // print err
-    log.Error(color.RedString(err.Error()))
-    for i := 1; i < 1999; i++ {
-        pc, file, line, ok := runtime.Caller(i)
-        if !ok || file == "" || pc == 0 {
-            break
-        }
-        // 格式：\t源码文件名:行数 函数名
-        log.Error(color.RedString("%s:%d %s", file, line, runtime.FuncForPC(pc).Name()))
-    }
-    return true
-}
 
 //////////////////////////////////////////////////////
 //////////////////////////////////////////////////////
