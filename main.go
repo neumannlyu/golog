@@ -15,6 +15,11 @@ func NewSimpleLog() log.SimpleLog {
     return simple
 }
 
+// 获取通用日志对象,通常都使用这个对象进行自定义配置
+func GetCommonLog() *log.CommonLog {
+    return &log.CommonLoggor
+}
+
 // 打印fatal级别的日志
 func Fatal(msg ...string) {
     log.CommonLoggor.Fatal(msg...)
