@@ -1,4 +1,4 @@
-package golog
+package log
 
 import (
     "fmt"
@@ -13,22 +13,11 @@ type SimpleLog struct {
     // 日志中的日期元素
     Data LogDate
     // 日志中的标签原色
-    Tag TAG
+    Tag LogTag
     // 日志的格式化字符串
     FormatString string
     // 日志消息
     Msg MsgAttribute
-}
-
-// 新建一个simplelog
-func NewSimpleLog() SimpleLog {
-    var simple SimpleLog
-    // 默认时间展示方式
-    simple.Data.Format = "2006-01-02 15:04:05"
-    simple.Tag.Tag = "log"
-    // 新建默认的日志对象
-    simple.FormatString = "&DT &TAG "
-    return simple
 }
 
 // 设置日志等级
@@ -37,11 +26,11 @@ func (simple *SimpleLog) SetLogLevel(level int) {
 }
 
 // 更新元素
-func (simple *SimpleLog) UpdateElement(newelement ILogElement) {
+func (simple *SimpleLog) UpdateElement(newelement IElement) {
     switch element := newelement.(type) {
     case LogDate:
         simple.Data = element
-    case TAG:
+    case LogTag:
         simple.Tag = element
     }
 }
@@ -52,11 +41,11 @@ func (simplelog SimpleLog) Log(strs ...string) {
 
     // 格式化Data
     format = strings.ReplaceAll(
-        format, simplelog.Data.Flag(), simplelog.Data.ToString())
+        format, simplelog.Data.Flag(), simplelog.Data.ToColorString())
 
     // 格式化TAG
     format = strings.ReplaceAll(
-        format, simplelog.Tag.Flag(), simplelog.Tag.ToString())
+        format, simplelog.Tag.Flag(), simplelog.Tag.ToColorString())
 
     // print
     fmt.Print(format)
@@ -78,14 +67,14 @@ func (simplelog SimpleLog) Log(strs ...string) {
 
 func (simplelog SimpleLog) Logln(strs ...string) {
     format := simplelog.FormatString
-
+    fmt.Printf("format: %v\n", format)
     // 格式化Data
     format = strings.ReplaceAll(
-        format, simplelog.Data.Flag(), simplelog.Data.ToString())
+        format, simplelog.Data.Flag(), simplelog.Data.ToColorString())
 
     // 格式化TAG
     format = strings.ReplaceAll(
-        format, simplelog.Tag.Flag(), simplelog.Tag.ToString())
+        format, simplelog.Tag.Flag(), simplelog.Tag.ToColorString())
 
     // print
     fmt.Print(format)

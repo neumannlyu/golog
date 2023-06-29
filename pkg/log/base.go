@@ -1,4 +1,4 @@
-package golog
+package log
 
 // 7:slient/off：完全不输出信息
 // 6:fatal：导致程序退出，输出程序退出时的错误信息
@@ -20,13 +20,27 @@ var (
     LOGTAG_FATAL    string = "FATAL"
     LOGTAG_ERROR    string = "ERROR"
     LOGTAG_WARN     string = "WARN"
-    LOGTAG_OK       string = "OK" //info的别名
     LOGTAG_INFO     string = "INFO"
     LOGTAG_DEBUG    string = "DEBUG"
     LOGTAG_TRACE    string = "TRACE"
 )
 
-type ILogElement interface {
-    ToString() string
-    Flag() string
+// var _ElementPrefix string = "&(E*#@"
+// var _ElementSuffix string = "#*)"
+var (
+    // Unified log date format
+    UnifiedLogDataFormat string = "2006-01-02 15:04:05"
+    // unified log format
+    UnifiedLogFormat string
+    // unified log level
+    UnifiedLogLevel int = LOGLEVEL_ALL
+)
+
+// type ILogElement interface {
+//     ToString() string
+//     Flag() string
+// }
+
+func init() {
+    CommonLoggor = NewCommonLog()
 }

@@ -1,20 +1,16 @@
-package golog
+package main
 
 import (
     "testing"
-
-    "github.com/fatih/color"
 )
 
 func TestLog(t *testing.T) {
     // Test simple log
     simplelog := NewSimpleLog()
     simplelog.Level = 7
-    simplelog.Msg.Bgcolor = color.BgCyan
-    simplelog.Msg.Fgcolor = color.FgYellow
-    simplelog.Tag.Font = color.Bold
-    simplelog.Tag.Tag = "MyTag"
-    simplelog.Log("这是一个测试的日志。")
+    simplelog.Logln("这是一个测试的日志。")
+
+    Fatal("hello ", "pop\n")
     // log := NewDefaultLog()
     // log.Level = 7
     // var mytime LogDate
