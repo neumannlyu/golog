@@ -1,6 +1,7 @@
 package golog
 
 import (
+    "fmt"
     "runtime"
 
     "github.com/fatih/color"
@@ -79,6 +80,7 @@ func CatchError(err error) bool {
 
     // print err
     tmplog.Error(color.RedString(err.Error()))
+    fmt.Println()
     for i := 1; i < 1999; i++ {
         pc, file, line, ok := runtime.Caller(i)
         if !ok || file == "" || pc == 0 {
@@ -87,6 +89,7 @@ func CatchError(err error) bool {
         // 格式：\t源码文件名:行数 函数名
         tmplog.Error(color.RedString("%s:%d %s",
             file, line, runtime.FuncForPC(pc).Name()))
+        fmt.Println()
     }
     return true
 }
