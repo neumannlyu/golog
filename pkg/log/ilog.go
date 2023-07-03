@@ -1,6 +1,6 @@
 package log
 
 type ILog interface {
-    // 设置日志等级
-    SetLogLevel(int)
+    // // 设置日志等级
+    // SetLogLevel(int)
 }

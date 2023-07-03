@@ -24,6 +24,11 @@ func GetCommonLog() *log.CommonLog {
     return &log.CommonLoggor
 }
 
+// 设置日志显示等级。默认等级为7（ALL）
+func SetLogLevel(level int) int {
+    return log.SetLogLevel(level)
+}
+
 // 打印fatal级别的日志
 func Fatal(msg ...string) {
     log.CommonLoggor.Fatal(msg...)
@@ -72,9 +77,6 @@ func CatchError(err error) bool {
     // 发生错误。提示错误信息以及调用堆栈情况。
 
     tmplog := log.NewCommonLog()
-    // 该条日志对象必须显示
-    tmplog.Level = log.LOGLEVEL_ALL
-
     tmplog.ErrorTag.Font = color.Bold
     tmplog.ErrorTag.Tag = "CatchError"
 

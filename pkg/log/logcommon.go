@@ -35,7 +35,6 @@ var (
 var CommonLoggor CommonLog
 
 type CommonLog struct {
-    Level       int
     DateElement LogDate
     Format      string
     MsgAttr     MsgAttribute
@@ -78,36 +77,12 @@ func NewCommonLog() CommonLog {
     return commonLog
 }
 
-// 设置日志等级
-func (log *CommonLog) SetLogLevel(level int) {
-    log.Level = level
-}
-
-// func (l CommonLog) UpdateElement(newelement ILogElement) {
-//     switch newelement.(type) {
-//     case LogDate:
-//         for i, e := range l.Element {
-//             switch e.(type) {
-//             case LogDate:
-//                 l.Element[i] = newelement
-//             }
-//         }
-//     case TAG:
-//         for i, e := range l.Element {
-//             switch e.(type) {
-//             case TAG:
-//                 l.Element[i] = newelement
-//             }
-//         }
-//     }
-// }
-
 //////////////////////////////////////////////////////
 //////////////////////////////////////////////////////
 //////////////////////////////////////////////////////
 // 打印fatal级别的日志
 func (commlog CommonLog) Fatal(msg ...string) {
-    if commlog.Level > LOGLEVEL_FATAL {
+    if _g_LogLevel > LOGLEVEL_FATAL {
         return
     }
     fmt.Print(commlog.DateElement.ToColorString() + " " +
@@ -120,7 +95,7 @@ func (commlog CommonLog) Fatal(msg ...string) {
 
 // 打印error级别的日志
 func (commlog CommonLog) Error(msg ...string) {
-    if commlog.Level > LOGLEVEL_ERROR {
+    if _g_LogLevel > LOGLEVEL_ERROR {
         return
     }
     fmt.Print(commlog.DateElement.ToColorString() + " " +
@@ -133,7 +108,7 @@ func (commlog CommonLog) Error(msg ...string) {
 
 // 打印error级别的日志
 func (commlog CommonLog) Warn(msg ...string) {
-    if commlog.Level > LOGLEVEL_WARN {
+    if _g_LogLevel > LOGLEVEL_WARN {
         return
     }
     fmt.Print(commlog.DateElement.ToColorString() + " " +
@@ -146,7 +121,7 @@ func (commlog CommonLog) Warn(msg ...string) {
 
 // 打印info级别的日志
 func (commlog CommonLog) Info(msg ...string) {
-    if commlog.Level > LOGLEVEL_INFO {
+    if _g_LogLevel > LOGLEVEL_INFO {
         return
     }
     fmt.Print(commlog.DateElement.ToColorString() + " " +
@@ -159,7 +134,7 @@ func (commlog CommonLog) Info(msg ...string) {
 
 // 打印debug级别的日志
 func (commlog CommonLog) Debug(msg ...string) {
-    if commlog.Level > LOGLEVEL_DEBUG {
+    if _g_LogLevel > LOGLEVEL_DEBUG {
         return
     }
     fmt.Print(commlog.DateElement.ToColorString() + " " +
@@ -172,11 +147,11 @@ func (commlog CommonLog) Debug(msg ...string) {
 
 // 打印trace级别的日志
 func (commlog CommonLog) Trace(msg ...string) {
-    if commlog.Level > LOGLEVEL_TRACE {
+    if _g_LogLevel > LOGLEVEL_TRACE {
         return
     }
     fmt.Print(commlog.DateElement.ToColorString() + " " +
-        commlog.ErrorTag.ToColorString() + " ")
+        commlog.TraceTag.ToColorString() + " ")
     c := commlog.MsgAttr.GenColor()
     for _, m := range msg {
         c.Print(m)

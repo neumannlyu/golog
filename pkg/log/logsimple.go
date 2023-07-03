@@ -8,8 +8,6 @@ import (
 )
 
 type SimpleLog struct {
-    // 日志等级
-    Level int
     // 日志中的日期元素
     Data LogDate
     // 日志中的标签原色
@@ -20,20 +18,15 @@ type SimpleLog struct {
     Msg MsgAttribute
 }
 
-// 设置日志等级
-func (simple *SimpleLog) SetLogLevel(level int) {
-    simple.Level = level
-}
-
 // 更新元素
-func (simple *SimpleLog) UpdateElement(newelement IElement) {
-    switch element := newelement.(type) {
-    case LogDate:
-        simple.Data = element
-    case LogTag:
-        simple.Tag = element
-    }
-}
+// func (simple *SimpleLog) UpdateElement(newelement IElement) {
+//     switch element := newelement.(type) {
+//     case LogDate:
+//         simple.Data = element
+//     case LogTag:
+//         simple.Tag = element
+//     }
+// }
 
 // print a log
 func (simplelog SimpleLog) Log(strs ...string) {
@@ -67,7 +60,6 @@ func (simplelog SimpleLog) Log(strs ...string) {
 
 func (simplelog SimpleLog) Logln(strs ...string) {
     format := simplelog.FormatString
-    fmt.Printf("format: %v\n", format)
     // 格式化Data
     format = strings.ReplaceAll(
         format, simplelog.Data.Flag(), simplelog.Data.ToColorString())
