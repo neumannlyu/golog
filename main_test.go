@@ -2,13 +2,11 @@ package golog
 
 import (
     "testing"
-
-    "github.com/neumannlyu/golog/pkg/log"
 )
 
 func TestLog(t *testing.T) {
     // 1. 设置日志等级
-    SetLogLevel(log.LOGLEVEL_ALL)
+    SetLogLevel(LOGLEVEL_ALL)
     // Test simple log
     simplelog := NewSimpleLog()
     simplelog.Logln("这是一个测试的日志。")
