@@ -4,41 +4,36 @@
 
 ## 使用方法
 
-- 新建log对象
+- 设置level
 
   ```
-  log := NewDefaultLog()
-  log.Level = 7
+  SetLogLevel(LOGLEVEL_ALL)
   ```
 
-- 自定义data样式
+- 简单日志样式
 
   ```
-  var mytime StTime
-  mytime.Fgcolor = color.FgRed
-  mytime.Format = "[[2006-01-02 15:04:05]]"
-  log.UpdateElement(mytime)
+    simplelog := NewSimpleLog()
+    simplelog.Logln("这是一个测试的日志。")
   ```
 
-- 自定义标签
+- 设置日志样式
 
   ```
-  var tag StLevelTag
-  tag.Bgcolor = color.BgBlack
-  tag.tag = "INFOF"
-  log.UpdateElement(tag)
+    Trace("hello ", "pop\n")
+    GetCommonLog().TraceTag.Tag = "NewTag"
+    Trace("New Hello.\n")
   ```
 
 - 打印日志
 
   ```
-  log.Println(color.CyanString("msg"))
-  log.Fatal("fatal\n")
-  log.Error("error\n")
-  log.Warn("warn\n")
-  log.Info("info\n")
-  log.Debug("debug\n")
-  log.Trace("trace\n")
+    Fatal("fatal\n")
+    Error("error\n")
+    Warn("warn\n")
+    Info("info\n")
+    Debug("debug\n")
+    Trace("trace\n")
   ```
 
   
