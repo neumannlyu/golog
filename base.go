@@ -1,4 +1,4 @@
-package log
+package golog
 
 // 7:slient/off：完全不输出信息
 // 6:fatal：导致程序退出，输出程序退出时的错误信息
@@ -25,10 +25,13 @@ var (
     LOGTAG_TRACE    string = "TRACE"
 )
 
-// var _ElementPrefix string = "&(E*#@"
-// var _ElementSuffix string = "#*)"
 // 全局变量：日志等级
 var _g_LogLevel int = LOGLEVEL_ALL
+
+// common log object
+var _g_CommonLoggor CommonLog
+var _ElementPrefix string = "&(E*#@"
+var _ElementSuffix string = "#*)"
 var (
     // Unified log date format
     UnifiedLogDataFormat string = "2006-01-02 15:04:05"
@@ -39,10 +42,5 @@ var (
 )
 
 func init() {
-    CommonLoggor = NewCommonLog()
-}
-
-func SetLogLevel(level int) int {
-    _g_LogLevel = level
-    return _g_LogLevel
+    _g_CommonLoggor = NewCommonLog()
 }

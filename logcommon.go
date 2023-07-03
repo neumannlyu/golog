@@ -1,13 +1,10 @@
-package log
+package golog
 
 import (
-	"fmt"
+    "fmt"
 
-	"github.com/fatih/color"
+    "github.com/fatih/color"
 )
-
-// common log object
-var CommonLoggor CommonLog
 
 type CommonLog struct {
     DateElement LogDate

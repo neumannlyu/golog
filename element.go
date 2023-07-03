@@ -1,7 +1,4 @@
-package log
-
-var _ElementPrefix string = "&(E*#@"
-var _ElementSuffix string = "#*)"
+package golog
 
 type IElement interface {
     // get flag of elememt

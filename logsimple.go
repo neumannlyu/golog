@@ -1,4 +1,4 @@
-package log
+package golog
 
 import (
     "fmt"
@@ -17,16 +17,6 @@ type SimpleLog struct {
     // 日志消息
     Msg MsgAttribute
 }
-
-// 更新元素
-// func (simple *SimpleLog) UpdateElement(newelement IElement) {
-//     switch element := newelement.(type) {
-//     case LogDate:
-//         simple.Data = element
-//     case LogTag:
-//         simple.Tag = element
-//     }
-// }
 
 // print a log
 func (simplelog SimpleLog) Log(strs ...string) {

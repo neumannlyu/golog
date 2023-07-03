@@ -11,6 +11,6 @@ func TestLog(t *testing.T) {
     simplelog := NewSimpleLog()
     simplelog.Logln("这是一个测试的日志。")
     Trace("hello ", "pop\n")
-    GetCommonLog().TraceTag.Tag = "New Tag"
-    Trace("水电费水电费")
+    GetCommonLog().TraceTag.Tag = "NewTag"
+    Trace("hello\n")
 }
