@@ -2,51 +2,19 @@ package golog
 
 import (
     "fmt"
-
-    "github.com/fatih/color"
 )
 
 type CommonLog struct {
     DateElement LogDate
-    Format      string
-    MsgAttr     MsgAttribute
     FatalTag    LogTag
     ErrorTag    LogTag
     InfoTag     LogTag
     WarnTag     LogTag
     DebugTag    LogTag
     TraceTag    LogTag
+    Format      string
+    MsgAttr     MsgAttribute
     // ElementSet  []IElement
-}
-
-func NewCommonLog() CommonLog {
-    var commonLog CommonLog
-    // 默认时间展示方式
-    commonLog.DateElement.FormatString = UnifiedLogDataFormat
-
-    // 默认日志排列布局
-    // date tag
-    commonLog.Format = commonLog.DateElement.Flag() +
-        " " + commonLog.TraceTag.Flag() + " "
-
-    // 构造所有的标签
-    // fatal
-    commonLog.FatalTag.Tag = LOGTAG_FATAL
-    commonLog.FatalTag.Fgcolor = color.FgHiRed
-    // error
-    commonLog.ErrorTag.Tag = LOGTAG_ERROR
-    commonLog.ErrorTag.Fgcolor = color.FgRed
-    // warn
-    commonLog.WarnTag.Tag = LOGTAG_WARN
-    commonLog.WarnTag.Fgcolor = color.FgYellow
-    // info
-    commonLog.InfoTag.Tag = LOGTAG_INFO
-    commonLog.InfoTag.Fgcolor = color.FgCyan
-    // debug
-    commonLog.DebugTag.Tag = LOGTAG_DEBUG
-    // trace
-    commonLog.TraceTag.Tag = LOGTAG_TRACE
-    return commonLog
 }
 
 //////////////////////////////////////////////////////

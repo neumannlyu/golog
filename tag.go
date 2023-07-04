@@ -3,10 +3,10 @@ package golog
 import "github.com/fatih/color"
 
 type LogTag struct {
-    Tag     string
-    Font    color.Attribute
-    Bgcolor color.Attribute
-    Fgcolor color.Attribute
+    FormatString string
+    Font         color.Attribute
+    Bgcolor      color.Attribute
+    Fgcolor      color.Attribute
 }
 
 func (tag LogTag) Flag() string {
@@ -24,5 +24,5 @@ func (tag LogTag) ToColorString() string {
     if tag.Fgcolor >= 0 {
         c.Add(tag.Fgcolor)
     }
-    return c.Sprint(tag.Tag)
+    return c.Sprint(tag.FormatString)
 }

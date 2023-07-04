@@ -11,11 +11,38 @@ import (
 func NewSimpleLog() SimpleLog {
     var simple SimpleLog
     // 默认时间展示方式
-    simple.Data.FormatString = UnifiedLogDataFormat
-    simple.Tag.Tag = "simplelog"
+    simple.Data = UnifiedLogData
+    simple.Tag = UnifiedLogTag
     // 新建默认的日志对象
-    simple.FormatString = simple.Data.Flag() + " " + simple.Tag.Flag() + " "
+    simple.FormatString = UnifiedLogFormatString
     return simple
+}
+
+func NewCommonLog() CommonLog {
+    var commonLog CommonLog
+    // 默认时间展示方式
+    commonLog.DateElement = UnifiedLogData
+    // 默认日志排列布局
+    commonLog.Format = UnifiedLogFormatString
+
+    // 构造所有的标签
+    // fatal
+    commonLog.FatalTag.FormatString = LOGTAG_FATAL
+    commonLog.FatalTag.Fgcolor = color.FgHiRed
+    // error
+    commonLog.ErrorTag.FormatString = LOGTAG_ERROR
+    commonLog.ErrorTag.Fgcolor = color.FgRed
+    // warn
+    commonLog.WarnTag.FormatString = LOGTAG_WARN
+    commonLog.WarnTag.Fgcolor = color.FgYellow
+    // info
+    commonLog.InfoTag.FormatString = LOGTAG_INFO
+    commonLog.InfoTag.Fgcolor = color.FgCyan
+    // debug
+    commonLog.DebugTag.FormatString = LOGTAG_DEBUG
+    // trace
+    commonLog.TraceTag.FormatString = LOGTAG_TRACE
+    return commonLog
 }
 
 // 获取通用日志对象,通常都使用这个对象进行自定义配置
@@ -78,7 +105,7 @@ func CatchError(err error) bool {
 
     tmplog := NewCommonLog()
     tmplog.ErrorTag.Font = color.Bold
-    tmplog.ErrorTag.Tag = "CatchError"
+    tmplog.ErrorTag.FormatString = "CatchError"
 
     // print err
     tmplog.Error(color.RedString(err.Error()))

@@ -1,5 +1,7 @@
 package golog
 
+import "github.com/fatih/color"
+
 // 7:slient/off：完全不输出信息
 // 6:fatal：导致程序退出，输出程序退出时的错误信息
 // 5:error：错误信息
@@ -34,13 +36,21 @@ var _ElementPrefix string = "&(E*#@"
 var _ElementSuffix string = "#*)"
 var (
     // Unified log date format
-    UnifiedLogDataFormat string = "2006-01-02 15:04:05"
+    UnifiedLogData LogDate
     // unified log format
-    UnifiedLogFormat string
-    // unified log level
-    UnifiedLogLevel int = LOGLEVEL_ALL
+    UnifiedLogTag LogTag
+    // unified format
+    UnifiedLogFormatString string
 )
 
 func init() {
     _g_CommonLoggor = NewCommonLog()
+
+    // 统一格式：时间日期默认
+    UnifiedLogData.FormatString = "2006-01-02 15:04:05"
+    UnifiedLogData.Bgcolor = color.BgCyan
+    // 统一格式：标签
+    // 统一格式：元素布局
+    UnifiedLogFormatString = UnifiedLogData.Flag() +
+        " " + UnifiedLogTag.Flag() + " "
 }
