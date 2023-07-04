@@ -7,7 +7,6 @@ import (
 )
 
 type LogDate struct {
-    id           int
     FormatString string
     Font         color.Attribute
     Bgcolor      color.Attribute
