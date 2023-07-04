@@ -48,7 +48,7 @@ func init() {
 
     // 统一格式：时间日期默认
     UnifiedLogData.FormatString = "2006-01-02 15:04:05"
-    UnifiedLogData.Bgcolor = color.BgCyan
+    UnifiedLogData.Fgcolor = color.FgBlue
     // 统一格式：标签
     // 统一格式：元素布局
     UnifiedLogFormatString = UnifiedLogData.Flag() +
