@@ -14,7 +14,6 @@ type CommonLog struct {
     TraceTag    LogTag
     Format      string
     MsgAttr     MsgAttribute
-    // ElementSet  []IElement
 }
 
 //////////////////////////////////////////////////////
@@ -31,6 +30,7 @@ func (commlog CommonLog) Fatal(msg ...string) {
     for _, m := range msg {
         c.Print(m)
     }
+    fmt.Println()
 }
 
 // 打印error级别的日志
@@ -44,6 +44,7 @@ func (commlog CommonLog) Error(msg ...string) {
     for _, m := range msg {
         c.Print(m)
     }
+    fmt.Println()
 }
 
 // 打印error级别的日志
@@ -57,6 +58,7 @@ func (commlog CommonLog) Warn(msg ...string) {
     for _, m := range msg {
         c.Print(m)
     }
+    fmt.Println()
 }
 
 // 打印info级别的日志
@@ -70,6 +72,7 @@ func (commlog CommonLog) Info(msg ...string) {
     for _, m := range msg {
         c.Print(m)
     }
+    fmt.Println()
 }
 
 // 打印debug级别的日志
@@ -83,6 +86,7 @@ func (commlog CommonLog) Debug(msg ...string) {
     for _, m := range msg {
         c.Print(m)
     }
+    fmt.Println()
 }
 
 // 打印trace级别的日志
@@ -96,4 +100,5 @@ func (commlog CommonLog) Trace(msg ...string) {
     for _, m := range msg {
         c.Print(m)
     }
+    fmt.Println()
 }
