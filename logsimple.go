@@ -44,7 +44,7 @@ func (simplelog SimpleLog) Log(strs ...string) {
         c.Add(simplelog.Msg.Font)
     }
     for _, v := range strs {
-        c.Print(v)
+        fmt.Print(c.Sprint(v))
     }
 }
 
@@ -72,7 +72,7 @@ func (simplelog SimpleLog) Logln(strs ...string) {
         c.Add(simplelog.Msg.Font)
     }
     for _, v := range strs {
-        c.Print(v)
+        fmt.Print(c.Sprint(v))
     }
     fmt.Println()
 }

@@ -28,7 +28,7 @@ func (commlog CommonLog) Fatal(msg ...string) {
         commlog.FatalTag.ToColorString() + " ")
     c := commlog.MsgAttr.GenColor()
     for _, m := range msg {
-        c.Print(m)
+        fmt.Print(c.Sprint(m))
     }
     fmt.Println()
 }
@@ -42,7 +42,7 @@ func (commlog CommonLog) Error(msg ...string) {
         commlog.ErrorTag.ToColorString() + " ")
     c := commlog.MsgAttr.GenColor()
     for _, m := range msg {
-        c.Print(m)
+        fmt.Print(c.Sprint(m))
     }
     fmt.Println()
 }
@@ -56,7 +56,7 @@ func (commlog CommonLog) Warn(msg ...string) {
         commlog.WarnTag.ToColorString() + " ")
     c := commlog.MsgAttr.GenColor()
     for _, m := range msg {
-        c.Print(m)
+        fmt.Print(c.Sprint(m))
     }
     fmt.Println()
 }
@@ -70,7 +70,7 @@ func (commlog CommonLog) Info(msg ...string) {
         commlog.InfoTag.ToColorString() + " ")
     c := commlog.MsgAttr.GenColor()
     for _, m := range msg {
-        c.Print(m)
+        fmt.Print(c.Sprint(m))
     }
     fmt.Println()
 }
@@ -84,7 +84,7 @@ func (commlog CommonLog) Debug(msg ...string) {
         commlog.DebugTag.ToColorString() + " ")
     c := commlog.MsgAttr.GenColor()
     for _, m := range msg {
-        c.Print(m)
+        fmt.Print(c.Sprint(m))
     }
     fmt.Println()
 }
@@ -98,7 +98,7 @@ func (commlog CommonLog) Trace(msg ...string) {
         commlog.TraceTag.ToColorString() + " ")
     c := commlog.MsgAttr.GenColor()
     for _, m := range msg {
-        c.Print(m)
+        fmt.Print(c.Sprint(m))
     }
     fmt.Println()
 }
